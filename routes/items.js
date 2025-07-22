@@ -2,50 +2,45 @@
 const express = require('express');
 const router = express.Router();
 
-let items = [];
-let nextId = 1;
+let items = []; // In-memory array
+let idCounter = 1;
 
-// GET all items
+// GET /api/items
 router.get('/', (req, res) => {
   res.json(items);
 });
 
-// GET item by ID
-router.get('/:id', (req, res) => {
-  const item = items.find(i => i.id === parseInt(req.params.id));
-  if (!item) return res.status(404).json({ error: 'Item not found' });
-  res.json(item);
-});
-
-// POST new item
+// POST /api/items
 router.post('/', (req, res) => {
-  const { name, description } = req.body;
-  if (!name || typeof name !== 'string') {
-    return res.status(400).json({ error: 'Name is required' });
-  }
-  const newItem = { id: nextId++, name, description: description || '' };
+  const { name } = req.body;
+  if (!name) return res.status(400).json({ error: 'Name is required' });
+
+  const newItem = { id: idCounter++, name };
   items.push(newItem);
   res.status(201).json(newItem);
 });
 
-// PUT update item
+// PUT /api/items/:id
 router.put('/:id', (req, res) => {
-  const { name, description } = req.body;
-  const item = items.find(i => i.id === parseInt(req.params.id));
+  const { id } = req.params;
+  const { name } = req.body;
+
+  const item = items.find(item => item.id === parseInt(id));
   if (!item) return res.status(404).json({ error: 'Item not found' });
 
-  if (name && typeof name === 'string') item.name = name;
-  if (description !== undefined) item.description = description;
-
+  item.name = name || item.name;
   res.json(item);
 });
 
-// DELETE item
+// DELETE /api/items/:id
 router.delete('/:id', (req, res) => {
-  const index = items.findIndex(i => i.id === parseInt(req.params.id));
+  const { id } = req.params;
+  const index = items.findIndex(item => item.id === parseInt(id));
+
   if (index === -1) return res.status(404).json({ error: 'Item not found' });
-  items.splice(index, 1);
-  res.status(204).send();
+
+  const deleted = items.splice(index, 1);
+  res.json(deleted[0]);
 });
 
 module.exports = router;
