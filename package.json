@@ -1,0 +1,27 @@
+{
+  "name": "rest-api-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  "start": "node server.js",
+  "test": "echo \"No test specified\" && exit 0",
+"description": "A simple REST API for managing items"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "```bash\r npm install\r node server.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "morgan": "^1.10.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Osooluwa/rest-api-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Osooluwa/rest-api-project/issues"
+  },
+  "homepage": "https://github.com/Osooluwa/rest-api-project#readme"
+}
